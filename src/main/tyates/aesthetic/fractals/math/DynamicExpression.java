@@ -39,24 +39,16 @@ public class DynamicExpression {
             return current.getNumericValue(x, y);
         }
 
-        switch (current.getValue()) {
-            case "sin":
-                return Math.sin(evaluate(current.getLeft(), x, y));
-            case "cos":
-                return Math.cos(evaluate(current.getLeft(), x, y));
-            case "abs":
-                return Math.abs(evaluate(current.getLeft(), x, y));
-            case "+":
-                return evaluate(current.getLeft(), x, y) + evaluate(current.getRight(), x, y);
-            case "-":
-                return evaluate(current.getLeft(), x, y) - evaluate(current.getRight(), x, y);
-            case "*":
-                return evaluate(current.getLeft(), x, y) * evaluate(current.getRight(), x, y);
-            case "/":
-                return evaluate(current.getLeft(), x, y) / evaluate(current.getRight(), x, y);
-            default:
-                throw new IllegalStateException(String.format("Unknown node operator %s", current.getValue()));
-        }
+        return switch (current.getValue()) {
+            case "sin" -> Math.sin(evaluate(current.getLeft(), x, y));
+            case "cos" -> Math.cos(evaluate(current.getLeft(), x, y));
+            case "abs" -> Math.abs(evaluate(current.getLeft(), x, y));
+            case "+" -> evaluate(current.getLeft(), x, y) + evaluate(current.getRight(), x, y);
+            case "-" -> evaluate(current.getLeft(), x, y) - evaluate(current.getRight(), x, y);
+            case "*" -> evaluate(current.getLeft(), x, y) * evaluate(current.getRight(), x, y);
+            case "/" -> evaluate(current.getLeft(), x, y) / evaluate(current.getRight(), x, y);
+            default -> throw new IllegalStateException(String.format("Unknown node operator %s", current.getValue()));
+        };
     }
 
     public double evaluate(final double x, final double y) {
